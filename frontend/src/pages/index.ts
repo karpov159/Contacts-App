@@ -1,3 +1,4 @@
-import Login from './Login/Login';
+import Login from './LoginPage/LoginPage';
+import Contacts from './ContactsPage/ContactsPage';
 
-export { Login };
+export { Login, Contacts };

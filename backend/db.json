@@ -1,25 +1,12 @@
 {
-	"users": [
-		{
-			"id": "1",
-			"email": "user@user.ru",
-			"password": "password",
-			"firstName": "Ivan",
-			"secondName": "Ivanov"
-		}
-	],
-	"contacts": [
-		{
-			"name": "Ivan",
-			"surname": "Ivanov",
-			"phone": "79119191914",
-			"id": 1
-		},
-		{
-			"name": "Ivan",
-			"surname": "Ivanov",
-			"phone": "79119191914",
-			"id": 2
-		}
-	]
+  "users": [
+    {
+      "id": "1",
+      "username": "user@user.ru",
+      "password": "12345",
+      "firstName": "Ivan",
+      "secondName": "Ivanov"
+    }
+  ],
+  "contacts": []
 }

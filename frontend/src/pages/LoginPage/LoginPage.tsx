@@ -3,12 +3,15 @@ import { useAppDispatch, useAppSelector } from '../../core/store';
 import { login } from '../../core/store/LoginSlice';
 import { useNavigate } from 'react-router-dom';
 import { userLocalStorage } from '../../core/LocalStorage/userLocalStorage';
+import { HOMEPAGE } from '../../core/config/RoutesConfig';
+import { setLoggedIn } from '../../core/store/LoginSlice';
+import onChangeInput from '../../shared/onChangeInput';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-const Login = () => {
+const LoginPage = () => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState();
@@ -29,20 +32,14 @@ const Login = () => {
 		textAlign: 'center',
 	};
 
-	const onChangeInput = (
-		event: { target: HTMLInputElement },
-		func: Function
-	) => {
-		func(event.target.value);
-	};
-
 	const onSubmit = (event: ChangeEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		dispatch(login({ username, password }))
 			.unwrap()
 			.then((results) => {
-				userLocalStorage.setItem(results.payload);
-				navigate('/homepage');
+				userLocalStorage.setItem(results);
+				dispatch(setLoggedIn(true));
+				navigate(HOMEPAGE);
 			})
 			.catch((error) => {
 				setError(error.message);
@@ -70,6 +67,7 @@ const Login = () => {
 					type='email'
 				/>
 			</Box>
+
 			<Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
 				<TextField
 					value={password}
@@ -85,11 +83,13 @@ const Login = () => {
 					fullWidth
 				/>
 			</Box>
+
 			{error ? (
 				<Typography color='red' variant='body1'>
 					{error}
 				</Typography>
 			) : null}
+
 			<Button variant='outlined' type='submit' sx={{ mt: 2 }}>
 				Продолжить
 			</Button>
@@ -97,4 +97,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default LoginPage;

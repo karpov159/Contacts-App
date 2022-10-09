@@ -1,12 +1,33 @@
-import { Routes, Route } from 'react-router-dom';
-import { LOGIN, HOMEPAGE } from '../config/RoutesConfig';
-import { Login } from '../../pages';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { LOGIN, HOMEPAGE, BASE } from '../config/RoutesConfig';
+import { Login, Contacts } from '../../pages';
+import { useAppSelector } from '../store';
 
 const AppRoutes = () => {
+	const { isLoggedIn } = useAppSelector((state) => state.login);
+
 	return (
 		<Routes>
-			<Route path={LOGIN} element={<Login />}></Route>
-			<Route path={HOMEPAGE} element={<h2>homepage</h2>} />
+			<Route
+				path={LOGIN}
+				element={!isLoggedIn ? <Login /> : <Navigate to={HOMEPAGE} />}
+			/>
+
+			<Route
+				path={HOMEPAGE}
+				element={isLoggedIn ? <Contacts /> : <Navigate to={LOGIN} />}
+			/>
+
+			<Route
+				path={BASE}
+				element={
+					isLoggedIn ? (
+						<Navigate to={HOMEPAGE} />
+					) : (
+						<Navigate to={LOGIN} />
+					)
+				}
+			/>
 		</Routes>
 	);
 };

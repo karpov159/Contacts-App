@@ -1,11 +1,10 @@
 import * as bodyParser from 'body-parser';
 import { create, defaults, router as jsonRouter } from 'json-server';
 import * as jwt from 'jsonwebtoken';
-import { join } from 'path';
 
 const PORT = process.env.PORT ?? 3001;
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY ?? 'MySecretKey';
-const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN ?? '1h';
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN ?? '48h';
 
 const server = create();
 
@@ -23,13 +22,12 @@ server.post('/auth/login', (req, res) => {
 	};
 	const user: {
 		id: number;
-		username: string;
-		password: string;
 		firstName: string;
 		secondName: string;
+		accessToken: string;
 	} | null =
 		(router.db.get('users') as any)
-			.find({ email: payload.username, password: payload.password })
+			.find({ username: payload.username, password: payload.password })
 			.value() ?? null;
 
 	if (user) {
@@ -44,7 +42,7 @@ server.post('/auth/login', (req, res) => {
 		});
 	} else {
 		const status = 401;
-		const message = 'Incorrect username or password';
+		const message = 'Имя пользователя или пароль введены не верно';
 		res.status(status).json({ status, message });
 	}
 });

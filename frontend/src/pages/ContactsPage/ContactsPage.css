@@ -1,0 +1,11 @@
+.wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin-top: 50px;
+}
+
+.wrapper__content {
+	width: 60vw;
+}
